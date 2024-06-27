@@ -1,9 +1,9 @@
-import Toolbar from "./Toolbar/Toolbar.tsx";
+import Toolbar from "./components/Toolbar/Toolbar.tsx";
 import {Route, Routes} from "react-router-dom";
-import Home from "./Home/Home.tsx";
-import Contacts from "./Contacts/Contacts.tsx";
-import About from "./About/About.tsx";
-import AddPost from "./AddPost/AddPost.tsx";
+import Home from "./components/Home/Home.tsx";
+import Contacts from "./components/Contacts/Contacts.tsx";
+import About from "./components/About/About.tsx";
+import AddPost from "./components/AddPost/AddPost.tsx";
 
 const App = () => {
 
