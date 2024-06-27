@@ -1,7 +1,10 @@
 export interface Post {
     id: string;
+    postCustomer: {
     title: string;
     information: string;
+}
+
 }
 
 export interface PostCustomer {

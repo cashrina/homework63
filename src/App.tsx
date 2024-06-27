@@ -9,7 +9,7 @@ const App = () => {
 
   return (
       <>
-          <header className="App-header"><Toolbar/></header>
+          <header className="App-header mx-5 my-4"><Toolbar/></header>
 
           <main className="container-fluid">
               <Routes>

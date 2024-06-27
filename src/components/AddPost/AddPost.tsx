@@ -22,7 +22,6 @@ const AddPost = () => {
         }));
     };
 
-
     const onFormSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
