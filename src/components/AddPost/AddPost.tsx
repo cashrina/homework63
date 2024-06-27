@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {PostCustomer, postDate} from "../../types.ts";
+import {PostCustomer} from "../../types.ts";
 import {useNavigate} from "react-router-dom";
 import Spinner from "../Spinner.tsx";
 import axiosApi from "../../axiosApi.ts";
@@ -8,6 +8,7 @@ const AddPost = () => {
     const[postCustomer, setPostCustomer] = useState<PostCustomer>({
         title: '',
         information: '',
+        data: '',
     });
 
     const[iaLoading, setLoading] = useState(false);
@@ -22,22 +23,38 @@ const AddPost = () => {
         }));
     };
 
+    const dateFormat = (date: Date): string => {
+        return [
+                date.getMonth() + 1,
+                date.getDate(),
+                date.getFullYear(),
+            ].join('/') + ' ' +
+            [
+                date.getHours(),
+                date.getMinutes(),
+                date.getSeconds(),
+            ].join(':');
+    };
+
     const onFormSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoading(true);
 
-        const post: postDate = {
-            postCustomer
+        const currentDate = new Date();
+        const post: PostCustomer = {
+            title: postCustomer.title,
+            information: postCustomer.information,
+            data: dateFormat(currentDate),
         };
 
         try {
             await axiosApi.post('/posts.json/', post);
-
         } finally {
             setLoading(false);
             navigate('/');
         }
     };
+    console.log(postCustomer.data);
 
     let form = (
         <form className="form-floating" onSubmit={onFormSubmit}>

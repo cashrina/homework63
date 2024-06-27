@@ -13,11 +13,11 @@ const HomeItem: React.FC<HomeItemProps> = ({ postTitle, postDate}) => {
                 <p>Created on: </p>
             </div>
             <div className="card-body">
+                <p>Created on: {postDate}</p>
                 <h5 className="card-title">{postTitle}</h5>
-                <p>{postDate}</p>
                 <a href="/posts/:id" className="btn btn-primary">Read more</a>
             </div>
-     </div>
+        </div>
     );
 };
 
