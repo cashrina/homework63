@@ -13,15 +13,15 @@ const IAddPost = {
 const AddPost = () => {
 
     const {id} = useParams();
-    const[postCustomer, setPostCustomer] = useState<PostCustomer>(IAddPost);
+    const [postCustomer, setPostCustomer] = useState<PostCustomer>(IAddPost);
 
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
-    const[isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const onFieldChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setPostCustomer((prev) => ({
             ...prev,
             [name]: value,
@@ -69,20 +69,20 @@ const AddPost = () => {
         }
     };
 
-    const fetchOnePost = useCallback( async (postId:string) => {
+    const fetchOnePost = useCallback(async (postId: string) => {
         setIsFetching(true);
         const response = await axiosApi.get<PostCustomer | null>(`/posts/${postId}.json`);
-        if(response.data){
+        if (response.data) {
             setPostCustomer({
                 ...response.data,
-            date: response.data.date.toString(),
+                date: response.data.date.toString(),
             });
         }
         setIsFetching(false);
     }, []);
 
     useEffect(() => {
-        if(id !== undefined) {
+        if (id !== undefined) {
             void fetchOnePost(id);
         } else {
             setPostCustomer(IAddPost);
@@ -90,51 +90,60 @@ const AddPost = () => {
     }, [id, fetchOnePost]);
 
     let form = (
-        <form className="form-floating" onSubmit={onFormSubmit}>
-            <h1>{id? 'Edit post' : 'Create a new post'}</h1>
-            <div className="form-floating">
-                <input required
-                       type="text"
-                       className="form-control mt-5"
-                       placeholder="Amazing world"
-                       id="title"
-                       name="title"
-                       value={postCustomer.title}
-                       onChange={onFieldChange}/>
+        <form className="container" onSubmit={onFormSubmit}>
+            <h1>{id ? 'Edit post' : 'Create a new post'}</h1>
+            <div className="mb-3">
+                <label htmlFor="title" className="form-label">Title</label>
+                <input
+                    required
+                    type="text"
+                    className="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Enter title"
+                    value={postCustomer.title}
+                    onChange={onFieldChange}
+                    style={{cursor: "pointer"}}
+                />
+            </div>
+            <div className="mb-3">
+                <label htmlFor="information" className="form-label">Information</label>
+                <textarea
+                    className="form-control"
+                    id="information"
+                    name="information"
+                    placeholder="Enter information"
+                    value={postCustomer.information}
+                    onChange={onFieldChange}
+                    style={{height: "100px", cursor: "pointer"}}
+                />
             </div>
             <div>
-                <label htmlFor="floatingTextarea2" className="my-3">Comments</label>
-                <textarea className="form-control"
-                          placeholder="Leave a comment here"
-                          id="information"
-                          name="information"
-                          value={postCustomer.information}
-                          onChange={onFieldChange}
-                          style={{height: "100px"}}/>
-            </div>
-            <div>
-                {id ? <button className="btn btn-primary mt-2" type="submit">Save</button> :
-                    <button className="btn btn-primary mt-2" type="submit">Add</button>}
+                {id ? (
+                    <button className="btn btn-primary" type="submit">Save</button>
+                ) : (
+                    <button className="btn btn-primary" type="submit">Add</button>
+                )}
             </div>
         </form>
     );
 
     if (isLoading) {
         form = (
-            <div className="d-flex justify-content-center align-items-center"
-                 style={{ height: '300px' }}>
-                <Spinner />
+            <div className="d-flex justify-content-center align-items-center" style={{height: '300px'}}>
+                <Spinner/>
             </div>
         );
     }
 
     return isFetching ? isFetching : (
-            < div className = "row mt-2" >
-                < div className = "col" >
+        <div className="container">
+            <div className="row mt-2 justify-content-center">
+                <div className="col-lg-6">
                     {form}
                 </div>
             </div>
+        </div>
     );
 };
-
-export default AddPost;
+    export default AddPost;

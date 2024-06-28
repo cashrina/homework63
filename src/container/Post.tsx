@@ -32,13 +32,13 @@ const Post: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="container">
             <div>
-                <p>{onePost?.date}</p>
-                <h3>{onePost?.title}</h3>
+                <p className="text-end">{onePost?.date}</p>
+                <h3 className="text-center mb-4">{onePost?.title}</h3>
                 <p>{onePost?.information}</p>
             </div>
-            <div>
+            <div className="d-flex justify-content-between">
                 <NavLink to={`/posts/${params.postId}/edit`} className="btn btn-primary">Edit</NavLink>
                 <button className="btn btn-danger ms-2" onClick={deletePost}>Delete</button>
             </div>

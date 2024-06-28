@@ -31,11 +31,11 @@ const Home = () => {
     }, [fetchPosts]);
 
     return (
-        <>
+        <div className="container d-flex flex-row align-items-center flex-wrap justify-content-center">
             {postList.map((item, index) => (
                 <HomeItem key={index} postTitle={item.title} postDate={item.date} postLink={item.id}/>
             ))}
-        </>
+        </div>
     );
 };
 
