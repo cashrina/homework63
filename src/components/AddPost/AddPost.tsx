@@ -41,7 +41,7 @@ const AddPost = () => {
             ].join(':');
     };
 
-    const onFormSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+    const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setIsLoading(true);
 
@@ -52,15 +52,20 @@ const AddPost = () => {
             date: dateFormat(currentDate),
         };
 
-        if(id !== undefined) {
-            await axiosApi.put(`/posts/${id}.json`, post);
-        }
-
         try {
-            await axiosApi.post('/posts.json/', post);
+            if (id !== undefined) {
+                await axiosApi.put(`/posts/${id}.json`, post);
+            } else {
+                await axiosApi.post('/posts.json', post);
+            }
+
+            setPostCustomer(IAddPost);
+            navigate('/');
+
+        } catch (error) {
+            console.error('Error:', error);
         } finally {
             setIsLoading(false);
-            navigate('/');
         }
     };
 

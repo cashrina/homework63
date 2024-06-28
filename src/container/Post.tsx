@@ -1,34 +1,35 @@
-import React, {useEffect, useState} from "react";
-import {NavLink, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 import axiosApi from "../axiosApi.ts";
-import { PostCustomer} from "../types.ts";
+import { PostCustomer } from "../types.ts";
 
-const Post:React.FC = () => {
+const Post: React.FC = () => {
     const [onePost, setOnePost] = useState<PostCustomer>();
-
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
-
         const fetchOnePost = async () => {
-
             try {
-                const response = await axiosApi.get<PostCustomer | undefined>(`/posts/${params.postId}.json/`);
-
-                if (response) {
+                const response = await axiosApi.get<PostCustomer | undefined>(`/posts/${params.postId}.json`);
+                if (response.data) {
                     setOnePost(response.data);
                 }
-
             } catch (error) {
-                console.error("Error fetching posts:", error);
+                console.error("Error fetching post:", error);
             }
         };
         void fetchOnePost();
-
-
     }, [params]);
 
-    console.log(onePost)
+    const deletePost = async () => {
+        try {
+            await axiosApi.delete(`/posts/${params.postId}.json`);
+            navigate('/');
+        } catch (error) {
+            console.error("Error deleting post:", error);
+        }
+    };
 
     return (
         <div>
@@ -39,9 +40,8 @@ const Post:React.FC = () => {
             </div>
             <div>
                 <NavLink to={`/posts/${params.postId}/edit`} className="btn btn-primary">Edit</NavLink>
-                <NavLink to="/post:delete" className="btn btn-danger">Delete</NavLink>
+                <button className="btn btn-danger ms-2" onClick={deletePost}>Delete</button>
             </div>
-
         </div>
     );
 };
