@@ -1,36 +1,42 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import axiosApi from "../../axiosApi.ts";
 import HomeItem from "./HomeItem.tsx";
-import {Post} from "../../types.ts";
+import {Apipost, Post} from "../../types.ts";
+
 
 const Home = () => {
     const [postList, setPostList] = useState<Post[]>([]);
 
-    useEffect(() => {
-        const getPostList = async () => {
-            try {
-                const response = await axiosApi.get('/posts.json');
-                const data = response.data;
-                console.log("Data from server:", data);
+    const fetchPosts = useCallback(async () => {
+        try {
+            const response = await axiosApi.get<Apipost | null>(`/posts.json/`);
+            const postResponse = response.data;
 
-                const dataArray = Object.keys(data).map(key => ({
-                    id:key,
-                    ...data[key]
+            if (postResponse !== null) {
+                const posts: Post[] = Object.keys(postResponse).map((id: string) => ({
+                    ...postResponse[id],
+                    id,
                 }));
-
-                setPostList(dataArray);
-
-            } catch (error) {
-                console.error('Error fetching posts:', error);
+                setPostList(posts);
+            } else {
+                setPostList([]);
             }
-        };
-        void getPostList();
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+            setPostList([]);
+        }
     }, []);
+
+    useEffect(() => {
+        void fetchPosts();
+    }, [fetchPosts]);
+    console.log(postList);
+
 
     return (
         <>
             {postList.map((item, index) => (
-                <HomeItem key={index} postTitle={item.title} postDate={item.data} />
+                <HomeItem key={index} postTitle={item.title} postDate={item.date} />
             ))}
         </>
     );

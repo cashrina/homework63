@@ -2,12 +2,15 @@ export interface Post {
     id: string;
     title: string;
     information: string;
-    data: string;
+    date: string;
 }
 
 export interface PostCustomer {
     title: string;
     information: string;
-    data: string;
+    date: string;
 }
 
+export interface Apipost {
+    [id: string]: Post;
+}

@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import {PostCustomer} from "../../types.ts";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import Spinner from "../Spinner.tsx";
 import axiosApi from "../../axiosApi.ts";
 
 const AddPost = () => {
+    const {id} = useParams();
     const[postCustomer, setPostCustomer] = useState<PostCustomer>({
         title: '',
         information: '',
-        data: '',
+        date: '',
     });
 
     const[iaLoading, setLoading] = useState(false);
@@ -44,7 +45,7 @@ const AddPost = () => {
         const post: PostCustomer = {
             title: postCustomer.title,
             information: postCustomer.information,
-            data: dateFormat(currentDate),
+            date: dateFormat(currentDate),
         };
 
         try {
@@ -54,7 +55,6 @@ const AddPost = () => {
             navigate('/');
         }
     };
-    console.log(postCustomer.data);
 
     let form = (
         <form className="form-floating" onSubmit={onFormSubmit}>
@@ -78,7 +78,8 @@ const AddPost = () => {
                           onChange={onFieldChange}
                           style={{height: "100px"}}/>
             </div>
-            <button className="btn btn-primary mt-2" type="submit">Add</button>
+            <button className="btn btn-primary mt-2" type="submit" disabled={iaLoading}>Add</button>
+            <NavLink to="/posts/:id/edit">{id? 'Edit' : undefined}</NavLink>
         </form>
     );
 

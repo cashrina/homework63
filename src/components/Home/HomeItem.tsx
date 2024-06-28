@@ -15,7 +15,7 @@ const HomeItem: React.FC<HomeItemProps> = ({ postTitle, postDate}) => {
             <div className="card-body">
                 <p>Created on: {postDate}</p>
                 <h5 className="card-title">{postTitle}</h5>
-                <a href="/posts/:id" className="btn btn-primary">Read more</a>
+                {/*<NavLink to={`/posts/:${postList.id}`} className="btn btn-primary">Read more</NavLink>*/}
             </div>
         </div>
     );
