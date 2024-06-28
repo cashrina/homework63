@@ -84,6 +84,9 @@ const AddPost = () => {
         }
     }, [id, fetchOnePost]);
 
+
+
+
     let form = (
         <form className="form-floating" onSubmit={onFormSubmit}>
             <div className="form-floating">
@@ -119,30 +122,10 @@ const AddPost = () => {
         );
     }
 
-    return isFetching ? (<form className="form-floating" onSubmit={onFormSubmit}>
-            <div className="form-floating">
-                <input required
-                       type="text"
-                       className="form-control mt-5"
-                       placeholder="Amazing world"
-                       id="title"
-                       name="title"
-                       value={postCustomer.title}
-                       onChange={onFieldChange}/>
-            </div>
-            <div>
-                <label htmlFor="floatingTextarea2" className="my-3">Comments</label>
-                <textarea className="form-control"
-                          placeholder="Leave a comment here"
-                          id="information"
-                          name="information"
-                          value={postCustomer.information}
-                          onChange={onFieldChange}
-                          style={{height: "100px"}}/>
-            </div>
-            <button className="btn btn-primary mt-2" type="submit" disabled={iaLoading}>Add</button>
-            <NavLink to="/posts/:id/edit">Edit</NavLink>
-        </form>) : (
+
+
+
+    return (
             < div className = "row mt-2" >
                 < div className = "col" >
                     {form}

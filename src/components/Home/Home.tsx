@@ -37,6 +37,7 @@ const Home = () => {
             {postList.map((item, index) => (
                 <HomeItem key={index} postTitle={item.title} postDate={item.date} postLink={item.id}/>
             ))}
+
         </>
     );
 };
