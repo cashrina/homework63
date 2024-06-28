@@ -12,10 +12,9 @@ const HomeItem: React.FC<HomeItemProps> = ({ postTitle, postDate, postLink}) => 
     return (
         <div className="card">
             <div className="card-header">
-                <p>Created on: </p>
+                <p>Created on:{postDate}</p>
             </div>
             <div className="card-body">
-                <p>Created on: {postDate}</p>
                 <h5 className="card-title">{postTitle}</h5>
                 <NavLink to={`/posts/${postLink}`} className="btn btn-primary">
                     Read more
