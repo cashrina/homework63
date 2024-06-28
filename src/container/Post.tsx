@@ -6,11 +6,7 @@ import { PostCustomer} from "../types.ts";
 const Post:React.FC = () => {
     const [onePost, setOnePost] = useState<PostCustomer>();
 
-
     const params = useParams();
-
-
-
 
     useEffect(() => {
 
@@ -42,7 +38,7 @@ const Post:React.FC = () => {
                 <p>{onePost?.information}</p>
             </div>
             <div>
-                <NavLink to="/posts/:id/edit" className="btn btn-primary">Edit</NavLink>
+                <NavLink to={`/posts/${params.postId}/edit`} className="btn btn-primary">Edit</NavLink>
                 <NavLink to="/post:delete" className="btn btn-danger">Delete</NavLink>
             </div>
 

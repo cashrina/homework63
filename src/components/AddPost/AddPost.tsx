@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {Post, PostCustomer} from "../../types.ts";
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import {PostCustomer} from "../../types.ts";
+import {useNavigate, useParams} from "react-router-dom";
 import Spinner from "../Spinner.tsx";
 import axiosApi from "../../axiosApi.ts";
 
@@ -11,17 +11,17 @@ const IAddPost = {
 }
 
 const AddPost = () => {
+
     const {id} = useParams();
     const[postCustomer, setPostCustomer] = useState<PostCustomer>(IAddPost);
 
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
-    const[iaLoading, setLoading] = useState(false);
+    const[isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const onFieldChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
-
         setPostCustomer((prev) => ({
             ...prev,
             [name]: value,
@@ -43,7 +43,7 @@ const AddPost = () => {
 
     const onFormSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setLoading(true);
+        setIsLoading(true);
 
         const currentDate = new Date();
         const post: PostCustomer = {
@@ -59,14 +59,14 @@ const AddPost = () => {
         try {
             await axiosApi.post('/posts.json/', post);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
             navigate('/');
         }
     };
 
-    const fetchOnePost = useCallback( async (id:string) => {
+    const fetchOnePost = useCallback( async (postId:string) => {
         setIsFetching(true);
-        const response = await axiosApi.get<Post | null>(`/posts/${id}.json`);
+        const response = await axiosApi.get<PostCustomer | null>(`/posts/${postId}.json`);
         if(response.data){
             setPostCustomer({
                 ...response.data,
@@ -84,11 +84,9 @@ const AddPost = () => {
         }
     }, [id, fetchOnePost]);
 
-
-
-
     let form = (
         <form className="form-floating" onSubmit={onFormSubmit}>
+            <h1>{id? 'Edit post' : 'Create a new post'}</h1>
             <div className="form-floating">
                 <input required
                        type="text"
@@ -109,23 +107,23 @@ const AddPost = () => {
                           onChange={onFieldChange}
                           style={{height: "100px"}}/>
             </div>
-            <button className="btn btn-primary mt-2" type="submit" disabled={iaLoading}>Add</button>
+            <div>
+                {id ? <button className="btn btn-primary mt-2" type="submit">Save</button> :
+                    <button className="btn btn-primary mt-2" type="submit">Add</button>}
+            </div>
         </form>
     );
 
-    if (iaLoading) {
+    if (isLoading) {
         form = (
             <div className="d-flex justify-content-center align-items-center"
-                 style={{height:'300px'}}>
+                 style={{ height: '300px' }}>
                 <Spinner />
             </div>
         );
     }
 
-
-
-
-    return (
+    return isFetching ? isFetching : (
             < div className = "row mt-2" >
                 < div className = "col" >
                     {form}

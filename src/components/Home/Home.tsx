@@ -29,15 +29,12 @@ const Home = () => {
     useEffect(() => {
         void fetchPosts();
     }, [fetchPosts]);
-    console.log(postList);
-
 
     return (
         <>
             {postList.map((item, index) => (
                 <HomeItem key={index} postTitle={item.title} postDate={item.date} postLink={item.id}/>
             ))}
-
         </>
     );
 };
