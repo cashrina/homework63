@@ -3,7 +3,6 @@ import axiosApi from "../../axiosApi.ts";
 import HomeItem from "./HomeItem.tsx";
 import {Apipost, Post} from "../../types.ts";
 
-
 const Home = () => {
     const [postList, setPostList] = useState<Post[]>([]);
 
@@ -36,7 +35,7 @@ const Home = () => {
     return (
         <>
             {postList.map((item, index) => (
-                <HomeItem key={index} postTitle={item.title} postDate={item.date} />
+                <HomeItem key={index} postTitle={item.title} postDate={item.date} postLink={item.id}/>
             ))}
         </>
     );
